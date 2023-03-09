@@ -3,7 +3,7 @@ const router = express.Router()
 const { Posts, Users } = require('../models')
 const authMiddleware = require('../middlewares/auth-midddleware')
 const CustomError = require('../middlewares/errorhandler')
-const Sequelize = require('sequelize');
+
 // 게시글 작성 API
 router.post('/', authMiddleware, async (req, res, next) => {
 
@@ -54,7 +54,7 @@ router.get('/', async (req, res, next) => {
 })
 
 // 게시글 상세조회 API
-router.get('/:postId', async (req, res) => {
+router.get('/:postId', async (req, res, next) => {
     try {
         const { postId } = req.params
         const posts = await Posts.findOne({
@@ -82,7 +82,7 @@ router.get('/:postId', async (req, res) => {
 })
 
 // 게시글 수정 API
-router.put('/:postId', authMiddleware, async (req, res) => {
+router.put('/:postId', authMiddleware, async (req, res, next) => {
     const { postId } = req.params
     const { title, content } = req.body
     const user = res.locals.user
@@ -107,7 +107,7 @@ router.put('/:postId', authMiddleware, async (req, res) => {
 })
 
 // 게시글 삭제 API
-router.delete('/:postId', authMiddleware, async (req, res) => {
+router.delete('/:postId', authMiddleware, async (req, res, next) => {
     try {
         const { postId } = req.params
         const user = res.locals.user
